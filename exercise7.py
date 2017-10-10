@@ -39,18 +39,39 @@ for Line in fasta:
 seqinfo = pandas.DataFrame(list(zip(sequenceID,sequenceLength,percentGC,meltingTemp)),columns=['sequenceID','sequenceLength','percentGC','meltingTemp'])
 # close original file
 fasta.close()
+#check out summary table
+seqinfo.head()
 #FIRST GRAPH: HISTOGRAM OF SEQUENCE LENGTHS
 seqlen=ggplot(seqinfo,aes(x="sequenceLength"))
-seqlen+geom_histogram()+theme_classic
+seqlen+geom_histogram()+theme_classic #UNSUPPORTED OPERAND TYPE?
 #SECOND GRAPH: HISTOGRAM OF GC CONTENT 
 gccont=ggplot(seqinfo,aes(x="percentGC"))
-gccont+geom_histogram()+theme_classic
+gccont+geom_histogram()+theme_classic #UNSUPPORTED OPERAND TYPE?
 #2 Create graph relating two variables
 #add data
 geyser=pandas.read_csv("old_faithful_erruptions.csv",header=0)
 #check to make sure data loaded properly 
 geyser.head()
+#create graph with treadline
+ggraph=ggplot(geyser,aes("eruptions","waiting"))
+ggraph+geom_point(x="eruptions",y="waiting") #DOESN'T LIKE THE FLOAT
+ggraph+xlab("Eruption Duration (min)")+ylab("Time Waited (min)")+stat_smooth(method="lm")
+#3 two figures that summarize data in data.txt
+#load data
+data=pandas.read_csv("data.txt",header=0)
+#check to make sure data loaded properly
+data.head()
+#create barplot showing means of the four populations
+means=ggplot(data)+theme_classic()+xlab("Populations")+ylab("Mean Number of Observations")
+means+geom_bar(aes(x="factor(region)",y="observations",fill="region"),stat="summary",fun_y=numpy.mean)
+#calculate means to check bar plot
+data.groupby(['region'])['observations'].mean()
+#this was correct, they are only small differences 
+#THIS ONE WORKS
 
+#create scatterplot of all observations #THIS IS ALL WRONG
+scat=ggplot(data,aes(x="observations"))+theme_classic()
+scat+geom_point(aes(color="region"))+ylab("Number of Observations")
 
-#3
-
+scat=ggplot(data,aes("observations"))+theme_classic()
+scat+geom_dotplot(aes(color="region"))+xlab
