@@ -61,7 +61,8 @@ geyser=pandas.read_csv("old_faithful_erruptions.txt",sep="\t",header=0)
 geyser.head()
 #create graph with treadline
 ggraph=ggplot(geyser,aes('eruptions','waiting'))
-ggraph+geom_point(color='firebrick')+xlab("Eruption Duration (min)")+ylab("Time Waited (min)")+stat_smooth(method="lm")#stat_smooth adds the trend line
+ggraph+geom_point(color='firebrick')+xlab("Eruption Duration (min)")+ylab("Time Waited (min)")+ggtitle("Old Faithful Erruptions")+stat_smooth(method="lm")
+#stat_smooth adds the trend line
 
 #3 two figures that summarize data in data.txt
 #load data
@@ -70,11 +71,9 @@ data=pandas.read_csv("data.txt",header=0)
 data.head()
 #create barplot showing means of the four populations
 means=ggplot(data)+theme_classic()+xlab("Populations")+ylab("Mean Number of Observations")
-means+geom_bar(aes(x="factor(region)",y="observations",fill="region"),stat="summary",fun_y=numpy.mean)
+means+geom_bar(aes(x="factor(region)",y="observations",fill="region"),stat="summary",fun_y=numpy.mean)+ggtitle("Population Means")
 #calculate means to check bar plot
-data.groupby(['region'])['observations'].mean()
-#this was correct, they are only small differences 
-#THIS ONE WORKS
+data.groupby(['region'])['observations'].mean()#means are only slightly different
 
 #create scatterplot of all observations #THIS IS ALL WRONG
 scat=ggplot(data,aes(x="observations"))+theme_classic()
