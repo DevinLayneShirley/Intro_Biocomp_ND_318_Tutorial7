@@ -53,6 +53,7 @@ seqlen+geom_histogram(binwidth=10,fill='cadetblue',color='black')+theme_classic(
 #SECOND GRAPH: HISTOGRAM OF GC CONTENT 
 gccont=ggplot(seqinfo,aes('percentGC'))
 gccont+geom_histogram(binwidth=1,fill='mediumorchid',color='black')+theme_classic()+ggtitle("GC Content of the Sequences")
+#this one needed smaller bins because the valuu differences were smaller
 
 #2 Create graph relating two variables
 #add data
@@ -69,15 +70,14 @@ ggraph+geom_point(color='firebrick')+xlab("Eruption Duration (min)")+ylab("Time 
 data=pandas.read_csv("data.txt",header=0)
 #check to make sure data loaded properly
 data.head()
-#create barplot showing means of the four populations
+#FIRST GRAPH:barplot showing means of the four populations
 means=ggplot(data)+theme_classic()+xlab("Populations")+ylab("Mean Number of Observations")
 means+geom_bar(aes(x="factor(region)",y="observations",fill="region"),stat="summary",fun_y=numpy.mean)+ggtitle("Population Means")
 #calculate means to check bar plot
 data.groupby(['region'])['observations'].mean()#means are only slightly different
 
-#create scatterplot of all observations #THIS IS ALL WRONG
-scat=ggplot(data,aes(x="observations"))+theme_classic()
-scat+geom_point(aes(color="region"))+ylab("Number of Observations")
-
-scat=ggplot(data,aes("observations"))+theme_classic()
-scat+geom_dotplot(aes(color="region"))+xlab
+#SECOND GRAPH: scatterplot of all observations
+scat3=ggplot(data,aes('observations','region'))
+scat3+geom_jitter(aes(color='factor(region)'))+scale_color_manual(values=['deeppink','steelblue','limegreen','darkorange'])+theme_classic()+ggtitle('All Observations')
+#this graph shows that even though the average observations are similiar for each region,
+#the observation distributions are quite different (narrow, wide, and bimodal)
